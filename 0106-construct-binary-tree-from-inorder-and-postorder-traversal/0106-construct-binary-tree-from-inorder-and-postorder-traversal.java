@@ -1,28 +1,41 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
-  public TreeNode buildTree(int[] inorder, int[] postorder) {
-    Map<Integer, Integer> inToIndex = new HashMap<>();
-
-    for (int i = 0; i < inorder.length; ++i)
-      inToIndex.put(inorder[i], i);
-
-    return build(inorder, 0, inorder.length - 1, postorder, 0, postorder.length - 1, inToIndex);
-  }
-
-  TreeNode build(int[] inorder, int inStart, int inEnd, int[] postorder, int postStart, int postEnd,
-                 Map<Integer, Integer> inToIndex) {
-    if (inStart > inEnd)
-      return null;
-
-    final int rootVal = postorder[postEnd];
-    final int rootInIndex = inToIndex.get(rootVal);
-    final int leftSize = rootInIndex - inStart;
-
-    TreeNode root = new TreeNode(rootVal);
-    root.left = build(inorder, inStart, rootInIndex - 1, postorder, postStart,
-                      postStart + leftSize - 1, inToIndex);
-    root.right = build(inorder, rootInIndex + 1, inEnd, postorder, postStart + leftSize,
-                       postEnd - 1, inToIndex);
-    return root;
-  }
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < inorder.length; i++) {
+                map.put(inorder[i], i);
+           
+        }
+        
+        return helper(map, postorder, 0, inorder.length - 1, 0, postorder.length - 1);
+        
+    }
+    
+    private TreeNode helper(Map<Integer, Integer> map, int[] postorder, int inLeft, int inRight, int poLeft, int poRight) {
+        if (inLeft > inRight) {
+            return null;
+        }
+        
+        TreeNode root = new TreeNode(postorder[poRight]);
+        int inMid = map.get(root.val);
+        
+        root.left = helper(map, postorder, inLeft, inMid - 1, poLeft, poLeft + inMid - inLeft - 1);
+        root.right = helper(map, postorder, inMid + 1, inRight, poRight - inRight + inMid, poRight - 1);
+        return root;
+    }
+	
 }
-
