@@ -22,6 +22,8 @@ class Solution {
 
 
 
+//TLE
+
 // class Solution {
 //     public int totalFruit(int[] fruits) {
 //         int n = fruits.length;
@@ -31,10 +33,10 @@ class Solution {
         
 //         int j = i;
 //         for(; j < n; j++){
-//             if(basket.size() == 2 && !basket.contains(fruits[i])){
+//             if(basket.size() == 2 && !basket.contains(fruits[j])){
 //                 break;
 //             }
-//         basket.add(fruits[i]);
+//         basket.add(fruits[j]);
 //     }
         
 //     ans = Math.max(ans, j - i);
