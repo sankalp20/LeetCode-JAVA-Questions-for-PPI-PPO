@@ -1,26 +1,22 @@
 class Solution {
-    private void permute(int[] nums, List<List<Integer>> ans, List<Integer> ds, boolean[] freq){
-        
-        // Base Condition
-        if(ds.size() == nums.length){
-            ans.add(new ArrayList<>(ds));
-            return;
-        }
-        for(int i=0; i < nums.length; i++){
-            if(!freq[i]){
-                freq[i] = true;
-                ds.add(nums[i]);
-                permute(nums, ans, ds, freq);
-                ds.remove(ds.size() - 1);
-                freq[i] = false;
-            }
-        }
-    }
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> ans = new ArrayList<>();
-        List<Integer> ds = new ArrayList<>();
-        boolean[] freq = new boolean[nums.length];
-        permute(nums, ans, ds, freq);
+        backtrack(new ArrayList<>(), ans, nums);
         return ans;
+    }
+    
+    public void backtrack(List<Integer> curr, List<List<Integer>> ans, int[] nums) {
+        if (curr.size() == nums.length) {
+            ans.add(new ArrayList<>(curr));
+            return;
+        }
+        
+        for (int num: nums) {
+            if (!curr.contains(num)) {
+                curr.add(num);
+                backtrack(curr, ans, nums);
+                curr.remove(curr.size() - 1);
+            }
+        }
     }
 }
