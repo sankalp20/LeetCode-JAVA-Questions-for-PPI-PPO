@@ -12,6 +12,9 @@ class Solution {
             }
         }
         
-        return totalGain >= 0 ? ans : -1;
+        if(totalGain<0){
+            return -1;
+        }
+        return ans;
     }
 }
