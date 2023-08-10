@@ -15,7 +15,7 @@ class Solution {
             else
             {
                 sum = sum + Long.parseLong(s);
-                System.out.println(sum);
+                // System.out.println(sum);
             }
             i++;
             j--;
