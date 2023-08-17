@@ -13,21 +13,6 @@ class Solution {
             }
         }
     
-    return end.substring(0, count);
+    return start.substring(0, count);
+  }
 }
-}
-
-//         Arrays.sort(strs);
-//         String start=strs[0];
-//          String end=strs[strs.length-1];
-//          int count=0;
-//          for(int i=0;i<start.length();i++){
-//              if(start.charAt(i)==end.charAt(i)){
-//             count++;
-//              }
-//              else{
-//                  break;
-//              }
-//          }
-        
-//          return end.substring(0,count);
