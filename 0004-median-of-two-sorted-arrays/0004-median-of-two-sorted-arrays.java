@@ -1,43 +1,38 @@
 class Solution {
-    public double findMedianSortedArrays(int[] A, int[] B) {
-        int na = A.length, nb = B.length;
-        int n = na + nb;
-        if ((na + nb) % 2 == 1) {
-            return solve(A, B, n / 2, 0, na - 1, 0, nb - 1);
-        } else {
-            return (double)(solve(A, B, n / 2, 0, na - 1, 0, nb - 1) + solve(A, B, n / 2 - 1, 0, na - 1, 0, nb - 1)) / 2;
+    public double findMedianSortedArrays(int[] a, int[] b) {
+     int n1 = a.length, n2 = b.length;
+        //if n1 is bigger swap the arrays:
+        if (n1 > n2) return findMedianSortedArrays(b, a);
+
+        int n = n1 + n2; //total length
+        int left = (n1 + n2 + 1) / 2; //length of left half
+        //apply binary search:
+        int low = 0, high = n1;
+        while (low <= high) {
+            int mid1 = (low + high) / 2;
+            int mid2 = left - mid1;
+            //calculate l1, l2, r1 and r2;
+            
+            // l1 is the last element on the left side of the partition in array a. It is the element just before 
+            // the partition point mid1. If mid1 is greater than 0 (meaning there are elements on the left side of 
+            // the partition), then l1 is assigned the value of a[mid1 - 1]. Otherwise, if mid1 is 0, which means 
+            // there are no elements on the left side of the partition, l1 is assigned Integer.MIN_VALUE.
+            int l1 = (mid1 > 0) ? a[mid1 - 1] : Integer.MIN_VALUE;
+            int l2 = (mid2 > 0) ? b[mid2 - 1] : Integer.MIN_VALUE;
+            
+            // r1 is the first element on the right side of the partition in array a. It is the element just after
+            // the partition point mid1. If mid1 is less than the length of array a (n1), then r1 is assigned the
+            // value of a[mid1]. Otherwise, if mid1 is equal to or greater than n1, meaning there are no elements
+            // on the right side of the partition in array a, r1 is assigned Integer.MAX_VALUE.
+            int r1 = (mid1 < n1) ? a[mid1] : Integer.MAX_VALUE;
+            int r2 = (mid2 < n2) ? b[mid2] : Integer.MAX_VALUE;
+
+            if (l1 <= r2 && l2 <= r1) {
+                if (n % 2 == 1) return Math.max(l1, l2);
+                else return ((double) (Math.max(l1, l2) + Math.min(r1, r2))) / 2.0;
+            } else if (l1 > r2) high = mid1 - 1;
+            else low = mid1 + 1;
         }
+        return 0; //dummy statement
+    }   
     }
-    
-    public int solve(int[] A, int[] B, int k, int aStart, int aEnd, int bStart, int bEnd) {
-        // If the segment of on array is empty, it means we have passed all
-        // its element, just return the corresponding element in the other array.
-        if (aEnd < aStart) {
-            return B[k - aStart];
-        }
-        if (bEnd < bStart) {
-            return A[k - bStart];
-        }
-        
-        // Get the middle indexes and middle values of A and B.
-        int aIndex = (aStart + aEnd) / 2, bIndex = (bStart + bEnd) / 2;
-        int aValue = A[aIndex], bValue = B[bIndex];
-        
-        // If k is in the right half of A + B, remove the larger right half.
-        if (aIndex + bIndex < k) { 
-            if (aValue > bValue) {
-                return solve(A, B, k, aStart, aEnd, bIndex + 1, bEnd);
-            } else {
-                return solve(A, B, k, aIndex + 1, aEnd, bStart, bEnd);
-            }
-        }
-        // Otherwise, remove the smaller left half. 
-        else { 
-            if (aValue > bValue) {
-                return solve(A, B, k, aStart, aIndex - 1, bStart, bEnd);
-            } else {
-                return solve(A, B, k, aStart, aEnd, bStart, bIndex - 1);       
-            }
-        }
-    }
-}
