@@ -27,39 +27,41 @@ class Solution {
 }
 
 
-
-// class Solution {
-//     int f(int i, int j, String s, String p){
-//         if(i < 0 && j < 0){
-//             return 1;
-//         } 
-//         else if(i < 0 && j >= 0){
-//             return 0;
+// class Solution{
+//     static boolean isAllStars(String s, int i){
+//         for(int j = 1; j <= i; j++){
+//             if(s.charAt(j-1) != '*')
+//                 return false;
 //         }
-//         else if(i >= 0 && j < 0){
-//             for(int ii = 0; ii < i; ii++){
-//                 if(s.charAt(ii) != '*') return 0;
-//             }
-//         }
-//         else {
-//             return 0;
-//         }
-    
-    
-//     if(s.charAt(i) == s.charAt(j) || s.charAt(i) == '?'){
-//         return f(i-1, j-1, s, p);
-//     }
-    
-//     if(s.charAt(i) == '*'){
-//         return f(i-1, j, s, p) || f(i, j-1, s, p);
-//     }
-//     return 0;
+//         return true;
 //     }
     
 //     public boolean isMatch(String s, String p) {
-//         int i = s.size();
-//         int j = s.size();
+//         int m = s.length();
+//         int n = p.length();
+//         Boolean[][] dp = new Boolean[m + 1][n + 1];
+//         dp[0][0] = true;
         
-//         return f(i-1, j-1, s, p);
+//         for(int j = 1; j <= n; j++){
+//             dp[0][j] = false;
+//         }
+        
+//         for(int i = 1; i <= m; i++){
+//             dp[i][0] = isAllStars(s, i);
+//         }
+//         for(int i = 1; i <= m; i++){
+//             for(int j = 1; j <= n; j++){
+//              if(s.charAt(i-1) == p.charAt(j-1) || s.charAt(i-1) == '?')
+//                  dp[i][j] = dp[i-1][j-1];
+            
+//                 else {
+//                     if(s.charAt(i-1) == '*')
+//                         dp[i][j] = dp[i-1][j] || dp[i][j-1];
+                    
+//                     else dp[i][j] = false;   
+//             }
+//         }
 //     }
+//     return dp[m][n];
+// }
 // }
