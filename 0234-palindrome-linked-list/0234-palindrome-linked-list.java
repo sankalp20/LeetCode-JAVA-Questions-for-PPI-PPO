@@ -52,5 +52,6 @@ class Solution {
             head = next;
         }
         return pre;
-    }
+        }
 }
+
