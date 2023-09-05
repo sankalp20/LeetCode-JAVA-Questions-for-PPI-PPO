@@ -14,49 +14,27 @@ class Node {
 */
 
 class Solution {
-    public Node copyRandomList(Node head) {
-          Node iter = head; 
-          Node front = head;
+  public Node copyRandomList(Node head) {
+    if (head == null) return null;
 
-          // First round: make copy of each node,
-          // and link them together side-by-side in a single list.
-          while (iter != null) {
-            front = iter.next;
+    var len = 0;
+    for (var ptr = head; ptr != null; ptr = ptr.next) len++;
 
-            Node copy = new Node(iter.val);
-            iter.next = copy;
-            copy.next = front;
+    var newList = new Node[len];
+    var ptr = head;
 
-            iter = front;
-          }
-
-          // Second round: assign random pointers for the copy nodes.
-          iter = head;
-          while (iter != null) {
-            if (iter.random != null) {
-              iter.next.random = iter.random.next;
-            }
-            iter = iter.next.next;
-          }
-
-          // Third round: restore the original list, and extract the copy list.
-          iter = head;
-          Node pseudoHead = new Node(0);
-          Node copy = pseudoHead;
-
-          while (iter != null) {
-            front = iter.next.next;
-
-            // extract the copy
-            copy.next = iter.next;
-            copy = copy.next;
-
-            // restore the original list
-            iter.next = front;
-
-            iter = front;
-          }
-
-          return pseudoHead.next;
+    for (var i=0; i<len; i++, ptr = ptr.next) {
+      newList[i] = new Node(ptr.val);
+      ptr.val = i;
     }
+    ptr = head;
+
+    for (var i=0; i<len; i++, ptr = ptr.next) {
+      if (i < len-1)
+        newList[i].next = newList[i+1];
+        
+      newList[i].random = ptr.random == null ? null : newList[ptr.random.val];
+    }
+    return newList[0];
+  }
 }
