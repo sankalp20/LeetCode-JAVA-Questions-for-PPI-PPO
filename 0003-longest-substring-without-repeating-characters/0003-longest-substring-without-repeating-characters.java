@@ -1,47 +1,17 @@
 class Solution {
     public int lengthOfLongestSubstring(String s) {
-        int n = s.length();
-        int maxLength = 0;
-        Set<Character> charSet = new HashSet<>();
-        int left = 0;
-        
-        for(int right = 0; right < n; right++){
-            if(!charSet.contains(s.charAt(right))) {
-                charSet.add(s.charAt(right));
-            maxLength = Math.max(maxLength, right - left + 1);
-        } else {
-            while(charSet.contains(s.charAt(right))){
-                charSet.remove(s.charAt(left));
-                left++;
+        if(s.length() == 0) return 0;
+        HashMap<Character, Integer>map = new HashMap<>();
+        int max = 0;
+
+        int j = 0;
+        for(int i = 0; i < s.length(); i++){
+            if(map.containsKey(s.charAt(i))){
+                j=Math.max(j, map.get(s.charAt(i)) + 1);
             }
-            charSet.add(s.charAt(right));
-        }
+            map.put(s.charAt(i), i);
+            max = Math.max(max, i-j+1);
+        } 
+        return max;
     }
-    return maxLength;
 }
-}
-
-// class Solution {
-//     public int lengthOfLongestSubstring(String s) {
-//         int n = s.length();
-//         int maxLength = 0;
-//         Set<Character> charSet = new HashSet<>();
-//         int left = 0;
-        
-//         for (int right = 0; right < n; right++) {
-//             if (!charSet.contains(s.charAt(right))) {
-//                 charSet.add(s.charAt(right));
-//                 maxLength = Math.max(maxLength, right - left + 1);
-//             } else {
-//                 while (charSet.contains(s.charAt(right))) {
-//                     charSet.remove(s.charAt(left));
-//                     left++;
-//                 }
-//                 charSet.add(s.charAt(right));
-//             }
-//         }
-        
-//         return maxLength;
-//     }
-// }
-
